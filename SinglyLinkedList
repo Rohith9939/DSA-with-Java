@@ -1,0 +1,203 @@
+package SinglyLinkedList;
+
+class Node {
+    int data;
+    Node next;
+    
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedListOperations {
+    Node head = null;
+    Node tail = null;
+    int size = 0; 
+    
+    void add(int data) {
+        Node temp = new Node(data);
+        
+        if (head == null) {
+            head = temp;
+            tail = temp;
+        } else {
+            tail.next = temp;
+            tail = temp;
+        }
+        size++;
+    }
+    
+    void show() {
+        Node current = head;
+        System.out.println("The list elements are:");
+        while (current != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        }
+        System.out.println("End");
+    }
+    
+    void firstInsert(int data) {
+        Node temp = new Node(data);
+        temp.next = head;
+        head = temp;
+        if (tail == null) { 
+            tail = temp;
+        }
+        size++;
+    }
+    
+    void lastInsert(int data) {
+        add(data); 
+    }
+    
+    void indexInsert1(int data, int index) {
+        if(index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+
+        if(index == 0) {
+            firstInsert(data);
+            return;
+        }
+
+        if(index == size) {
+            lastInsert(data);
+            return;
+        }
+
+        Node temp = head;
+        for(int i = 1; i < index; i++) {
+            temp = temp.next;
+        }
+
+        Node newNode = new Node(data);
+        newNode.next = temp.next;
+        temp.next = newNode;
+        size++;
+    }
+    
+    void indexInsert2(int data, int index) {
+        if(index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+
+        if(index == 0) {
+            firstInsert(data);
+            return;
+        }
+
+        if(index == size) {
+            lastInsert(data);
+            return;
+        }
+
+        insertion(data, head, index);
+    }
+    
+    void insertion(int data, Node node, int index) {
+        if(index == 1) {
+            Node newNode = new Node(data);
+            newNode.next = node.next;
+            node.next = newNode;
+            size++;
+            return;
+        }
+        insertion(data, node.next, index - 1);
+    }
+    
+    int firstDelete()
+    {
+    	int val=head.data;
+    	
+    	if(size==0)
+        {
+        	return -1;
+        }
+    	if(tail==head)
+    	{
+    		tail = head =null;
+    	}
+    	else
+    	{
+    		head = head.next;
+    	}
+    	
+    	return val;
+    }
+    
+    int lastDelete()
+    {
+        if(size<1)
+        {
+        	return firstDelete();
+        }
+        
+        Node lastSecond = get(size-2);
+        int val = tail.data;
+        tail = lastSecond;
+        tail.next = null;
+        return val;
+        
+    }
+    
+    int indexDelete(int index)
+    {
+    	int val;
+    	if(index<0 || index>size)
+    	{
+    		throw new IndexOutOfBoundsException("Index out of bounds");
+    	}
+    	
+    	Node temp = get(index-2);
+    	val =temp.data;
+    	temp.next = temp.next.next;
+    	return val;
+    	
+    }
+    Node get(int index)
+    {
+    	Node temp = head;
+    	for(int i=0;i<index;i++)
+    	{
+    		temp=temp.next;
+    	}
+    	return temp;
+    }
+}
+
+public class LinkedListCreation {
+    public static void main(String[] args) {
+        LinkedListOperations obj = new LinkedListOperations();
+        obj.add(10);
+        obj.add(20);
+        obj.add(30);
+        obj.add(40);
+        obj.add(50);
+        obj.add(60);
+        
+        obj.show();
+        
+//        obj.firstInsert(5);
+//        obj.show();
+//        
+//        obj.lastInsert(100); 
+//        obj.show();
+//        
+//        obj.indexInsert1(66, 4);
+//        obj.show();
+//        
+//        obj.indexInsert2(77, 6);
+//        obj.show();
+        
+        
+//       obj.firstDelete();
+//       obj.show();
+       
+//       obj.lastDelete();
+//       obj.show();
+        obj.indexDelete(3);
+        obj.show();
+    }
+}
